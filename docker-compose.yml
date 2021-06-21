@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  web:
+    build: "."
+    container_name: python-django
+    ports:
+      - "8000:80"
+    volumes:
+      - ".:/app:rw"
+    command: python manage.py runserver 0.0.0.0:80
+    links:
+      - "db:postgres"
+
+  db:
+    image: postgres:9.6-alpine
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    volumes:
+      - ".:/app:rw"
